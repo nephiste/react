@@ -7,15 +7,15 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-//import data from '../data';
+// import data from '../data';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_REQUEST': //start fetch
+    case 'FETCH_REQUEST':
       return { ...state, loading: true };
-    case 'FETCH_SUCCESS': //data fetched succesfuly
+    case 'FETCH_SUCCESS':
       return { ...state, products: action.payload, loading: false };
-    case 'FETCH_FAIL': //fetch failed
+    case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
@@ -28,8 +28,7 @@ function HomeScreen() {
     loading: true,
     error: '',
   });
-  //fetching data from backend
-
+  // const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
@@ -39,15 +38,17 @@ function HomeScreen() {
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: err.message });
       }
+
+      // setProducts(result.data);
     };
     fetchData();
   }, []);
   return (
     <div>
       <Helmet>
-        <title>Herbaciarnia.pl</title>
+        <title>Amazona</title>
       </Helmet>
-      <h1 class="f-products">Featured products</h1>
+      <h1>Featured Products</h1>
       <div className="products">
         {loading ? (
           <LoadingBox />

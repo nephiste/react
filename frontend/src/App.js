@@ -4,9 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
 import Navbar from 'react-bootstrap/Navbar';
+import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useContext } from 'react';
@@ -17,6 +17,7 @@ import ShippingAddressScreen from './screens/ShippingAddressScreen';
 import SignupScreen from './screens/SignupScreen';
 import PaymentMethodScreen from './screens/PaymentMethodScreen';
 import PlaceOrderScreen from './screens/PlaceOrderScreen';
+
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
@@ -27,24 +28,15 @@ function App() {
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
   };
-
   return (
     <BrowserRouter>
       <div className="d-flex flex-column site-container">
-        <ToastContainer
-          position="top-center"
-          autoClose={2500}
-          newestOnTop={false}
-          closeOnClick
-          draggable
-          theme="colored"
-          limit={1}
-        />
+        <ToastContainer position="bottom-center" limit={1} />
         <header>
-          <Navbar bg="success" variant="dark">
+          <Navbar bg="dark" variant="dark">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand>Herbaciarnia.pl</Navbar.Brand>
+                <Navbar.Brand>amazona</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
                 <Link to="/cart" className="nav-link">
@@ -99,9 +91,7 @@ function App() {
           </Container>
         </main>
         <footer>
-          <div className="text-center">
-            Find us at <strong>Łódź, Kościuszki 10</strong>
-          </div>
+          <div className="text-center">All rights reserved</div>
         </footer>
       </div>
     </BrowserRouter>
