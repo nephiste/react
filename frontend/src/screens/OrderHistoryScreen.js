@@ -6,100 +6,92 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Store } from '../Store';
 import { getError } from '../utils';
-import Button from 'react-bootstrap/esm/Button';
+//import Button from 'react-bootstrap/esm/Button';
+import { Button, Table } from 'react-bootstrap';
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
-      return { ...state, orders: action.payload, loading: false };
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
+class OrderHistoryScreen extends React.Component {
+  static contextType = Store;
 
-export default function OrderHistoryScreen() {
-  const { state } = useContext(Store);
-  const { userInfo } = state;
-  const navigate = useNavigate();
-
-  const [{ loading, error, orders }, dispatch] = useReducer(reducer, {
+  state = {
     loading: true,
     error: '',
-  });
-  useEffect(() => {
-    const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
-      try {
-        const { data } = await axios.get(
-          `/api/orders/mine`,
+    orders: [],
+  };
 
-          { headers: { Authorization: `Bearer ${userInfo.token}` } }
-        );
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
-      } catch (error) {
-        dispatch({
-          type: 'FETCH_FAIL',
-          payload: getError(error),
-        });
-      }
-    };
-    fetchData();
-  }, [userInfo]);
-  return (
-    <div>
-      <Helmet>
-        <title>Order History</title>
-      </Helmet>
+  componentDidMount() {
+    const { userInfo } = this.context.state;
+    this.fetchData(userInfo);
+  }
 
-      <h1>Order History</h1>
-      {loading ? (
-        <LoadingBox></LoadingBox>
-      ) : error ? (
-        <MessageBox variant="danger">{error}</MessageBox>
-      ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>{order.totalPrice.toFixed(2)}</td>
-                <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
-                <td>
-                  {order.isDelivered
-                    ? order.deliveredAt.substring(0, 10)
-                    : 'No'}
-                </td>
-                <td>
-                  <Button
-                    type="button"
-                    variant="light"
-                    onClick={() => {
-                      navigate(`/order/${order._id}`);
-                    }}
-                  >
-                    Details
-                  </Button>
-                </td>
+  fetchData = async (userInfo) => {
+    this.setState({ loading: true });
+    try {
+      const { data } = await axios.get(
+        `/api/orders/mine`,
+
+        { headers: { Authorization: `Bearer ${userInfo.token}` } }
+      );
+      this.setState({ loading: false, orders: data });
+    } catch (error) {
+      this.setState({ loading: false, error: getError(error) });
+    }
+  };
+
+  render() {
+    const { loading, error, orders } = this.state;
+    return (
+      <div>
+        <Helmet>
+          <title>Order History</title>
+        </Helmet>
+
+        <h1>Order History</h1>
+        {loading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>{error}</div>
+        ) : (
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>DATE</th>
+                <th>TOTAL</th>
+                <th>PAID</th>
+                <th>DELIVERED</th>
+                <th>ACTIONS</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
-  );
+            </thead>
+            <tbody>
+              {orders.map((order) => (
+                <tr key={order._id}>
+                  <td>{order._id}</td>
+                  <td>{order.createdAt.substring(0, 10)}</td>
+                  <td>{order.totalPrice.toFixed(2)}</td>
+                  <td>{order.isPaid ? order.paidAt.substring(0, 10) : 'No'}</td>
+                  <td>
+                    {order.isDelivered
+                      ? order.deliveredAt.substring(0, 10)
+                      : 'No'}
+                  </td>
+                  <td>
+                    <Button
+                      variant="light"
+                      onClick={() => {
+                        window.location.href = `/order/${order._id}`;
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        )}
+      </div>
+    );
+  }
 }
+
+export default OrderHistoryScreen;

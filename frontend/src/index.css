@@ -16,7 +16,7 @@ main {
 }
 
 .btn-primary {
-  background-color: #fca904;
+  background-color: #fff708;
   color: black;
 }
 
@@ -27,7 +27,7 @@ main {
 }
 
 .product {
-  border: 1px #404040 solid;
+  border: 3px #ce2d2d solid;
   margin: 1rem;
 }
 
@@ -42,7 +42,7 @@ main {
 }
 
 .rating span {
-  color: #2bbe57;
+  color: #12a53e;
 }
 
 .img-large {
@@ -63,4 +63,8 @@ main {
 .checkout-steps > div.active {
   border-bottom: 0.2rem solid #f08000;
   color: #f08000;
+}
+
+.font-link {
+  font-family: 'Yeon Sung', cursive;
 }

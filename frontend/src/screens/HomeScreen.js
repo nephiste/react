@@ -7,64 +7,53 @@ import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
-// import data from '../data';
+import React from 'react';
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true };
-    case 'FETCH_SUCCESS':
-      return { ...state, products: action.payload, loading: false };
-    case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload };
-    default:
-      return state;
-  }
-};
-
-function HomeScreen() {
-  const [{ loading, error, products }, dispatch] = useReducer(logger(reducer), {
-    products: [],
+class HomeScreen extends React.Component {
+  state = {
     loading: true,
     error: '',
-  });
-  // const [products, setProducts] = useState([]);
-  useEffect(() => {
+    products: [],
+  };
+
+  componentDidMount() {
     const fetchData = async () => {
-      dispatch({ type: 'FETCH_REQUEST' });
+      this.setState({ loading: true });
       try {
         const result = await axios.get('/api/products');
-        dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
+        this.setState({ loading: false, products: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        this.setState({ loading: false, error: err.message });
       }
-
-      // setProducts(result.data);
     };
     fetchData();
-  }, []);
-  return (
-    <div>
-      <Helmet>
-        <title>Amazona</title>
-      </Helmet>
-      <h1>Featured Products</h1>
-      <div className="products">
-        {loading ? (
-          <LoadingBox />
-        ) : error ? (
-          <MessageBox variant="danger">{error}</MessageBox>
-        ) : (
-          <Row>
-            {products.map((product) => (
-              <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
-                <Product product={product}></Product>
-              </Col>
-            ))}
-          </Row>
-        )}
+  }
+
+  render() {
+    return (
+      <div>
+        <Helmet>
+          <title>Herbaciarnia</title>
+        </Helmet>
+        <h1>Featured Products</h1>
+        <div className="products">
+          {this.state.loading ? (
+            <LoadingBox />
+          ) : this.state.error ? (
+            <MessageBox variant="danger">{this.state.error}</MessageBox>
+          ) : (
+            <Row>
+              {this.state.products.map((product) => (
+                <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                  <Product product={product}></Product>
+                </Col>
+              ))}
+            </Row>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
+
 export default HomeScreen;
