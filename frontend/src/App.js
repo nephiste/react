@@ -188,8 +188,8 @@ function App() {
             </Routes>
           </Container>
         </main>
-        <footer>
-          <div className="text-center">All rights reserved</div>
+        <footer background-color="#32e66861">
+          <div className="text-center">Find us at: Łódź, Kościuszki 10 </div>
         </footer>
       </div>
     </BrowserRouter>

@@ -13,6 +13,7 @@ body {
 
 main {
   flex: 1;
+  background-color: #32e66861;
 }
 
 .btn-primary {
@@ -29,6 +30,10 @@ main {
 .product {
   border: 3px #ce2d2d solid;
   margin: 1rem;
+  background-color: #32e66861;
+}
+.Card {
+  background-color: #32e66861;
 }
 
 .product img {
@@ -67,4 +72,12 @@ main {
 
 .font-link {
   font-family: 'Yeon Sung', cursive;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(13, 219, 17);
+}
+a.hover {
+  text-decoration: underline;
 }
