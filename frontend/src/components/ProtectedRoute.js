@@ -1,9 +1,13 @@
-import React, { useContext } from 'react';
+import React, { Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Store } from '../Store';
 
-export default function ProtectedRoute({ children }) {
-  const { state } = useContext(Store);
-  const { userInfo } = state;
-  return userInfo ? children : <Navigate to="/signin" />;
+export default class ProtectedRoute extends Component {
+  static contextType = Store;
+
+  render() {
+    const { state } = this.context;
+    const { userInfo } = state;
+    return userInfo ? this.props.children : <Navigate to="/signin" />;
+  }
 }

@@ -133,14 +133,6 @@ export default class ShippingAddressScreen extends Component {
                 required
               />
             </Form.Group>
-            {/* <Form.Group className="mb-3" controlId="city">
-              <Form.Label>City</Form.Label>
-              <Form.Control
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                required
-              />
-            </Form.Group> */}
             <Form.Group className="mb-3" controlId="city">
               <Form.Control
                 type="text"
@@ -163,13 +155,6 @@ export default class ShippingAddressScreen extends Component {
                 required
               />
             </Form.Group>
-            {/* <Form.Group className="mb-3" controlId="postalCode">
-              <Form.Label>Postal Code</Form.Label>
-              <Form.Control
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
-                required
-              /> */}
             <Form.Group className="mb-3" controlId="postalCode">
               <Form.Control
                 type="text"
@@ -193,12 +178,6 @@ export default class ShippingAddressScreen extends Component {
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="country">
-              {/* <Form.Label>Country</Form.Label>
-              <Form.Control
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                required
-              /> */}
               <Form.Control
                 type="text"
                 value={country}
